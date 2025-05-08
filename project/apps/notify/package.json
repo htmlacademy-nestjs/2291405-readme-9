@@ -1,9 +1,9 @@
 {
-  "name": "@project/account",
+  "name": "@project/notify",
   "version": "0.0.1",
   "private": true,
   "nx": {
-    "name": "account",
+    "name": "notify",
     "targets": {
       "build": {
         "executor": "nx:run-commands",
@@ -29,16 +29,21 @@
           "build"
         ],
         "options": {
-          "buildTarget": "account:build",
+          "buildTarget": "notify:build",
           "runBuildTargetDependencies": false
         },
         "configurations": {
           "development": {
-            "buildTarget": "account:build:development"
+            "buildTarget": "notify:build:development"
           },
           "production": {
-            "buildTarget": "account:build:production"
+            "buildTarget": "notify:build:production"
           }
+        }
+      },
+      "test": {
+        "options": {
+          "passWithNoTests": true
         }
       }
     }
