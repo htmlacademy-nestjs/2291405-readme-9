@@ -1,3 +1,4 @@
+
 import {
   ConflictException,
   Injectable,
@@ -16,6 +17,8 @@ import {
   AUTH_USER_NOT_FOUND,
   AUTH_USER_PASSWORD_WRONG
 } from './authentication.constant';
+import { AuthenticationResponse } from './authentication.response';
+import { ChangePasswordUserDto } from 'src/dto/change-password-user.dto';
 
 @Injectable()
 export class AuthenticationService {
@@ -28,17 +31,18 @@ export class AuthenticationService {
     const {
       name,
       email,
-      avatarUrl,
+      avatar,
       password
     } = dto;
 
     const blogUser: AuthUser = {
       name,
       email,
-      avatarUrl,
+      avatar,
       passwordHash: '',
       postCount: 0,
-      subscriberCount: 0
+      subscriberCount: 0,
+      registerDate: new Date()
     };
 
     if (await this.blogUserRepository.findByEmail(email)) {
@@ -49,6 +53,28 @@ export class AuthenticationService {
     this.blogUserRepository.save(userEntity);
 
     return userEntity;
+  }
+
+    public async updatePassword(dto: ChangePasswordUserDto) {
+    if (!dto.userId) {
+      throw new UnauthorizedException(
+        AuthenticationResponse.UserNotAuth.description
+      );
+    }
+    const existUser = await this.blogUserRepository.findById(dto.userId);
+    if (!existUser) {
+      throw new NotFoundException(
+        AuthenticationResponse.UserNotFound.description
+      );
+    }
+    const login: LoginUserDto = {
+      email: existUser.email,
+      password: dto.oldPassword,
+    };
+    if (await this.verifyUser(login)) {
+      const userEntity = await existUser.setPassword(dto.newPassword);
+      this.blogUserRepository.update(userEntity);
+    }
   }
 
   public async verifyUser(dto: LoginUserDto) {

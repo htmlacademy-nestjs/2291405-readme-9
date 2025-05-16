@@ -1,15 +1,17 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsEmail, IsString, Length } from 'class-validator';
+import { IsString, Length } from 'class-validator';
 
 import { AuthenticationProperty } from '../authentication-module/authentication.constant';
 
+export class ChangePasswordUserDto {
 
-export class LoginUserDto {
-
-  @ApiProperty(AuthenticationProperty.Email.Description)
+  @ApiProperty(AuthenticationProperty.Id.Description)
   @IsString()
-  @IsEmail({}, { message: AuthenticationProperty.Email.Validate.Message })
-  public email: string;
+  public userId: string;
+
+  @ApiProperty(AuthenticationProperty.OldPassword.Description)
+  @IsString()
+  public oldPassword: string;
 
   @ApiProperty(AuthenticationProperty.Password.Description)
   @IsString()
@@ -20,5 +22,5 @@ export class LoginUserDto {
       message: AuthenticationProperty.Password.Validate.Message,
     }
   )
-  public password: string;
+  public newPassword: string;
 }

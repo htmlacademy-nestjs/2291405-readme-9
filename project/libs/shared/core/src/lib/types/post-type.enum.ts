@@ -4,4 +4,5 @@ export enum PostType {
   Quote = 'quote',
   Photo = 'photo',
   Link = 'link',
+  VideoPost = "VideoPost",
 };

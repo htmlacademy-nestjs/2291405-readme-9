@@ -8,8 +8,6 @@ import { AuthenticationModule } from '@project/authentication';
   imports: [
     BlogUserModule,
     AuthenticationModule
-  ],
-  controllers: [],
-  providers: [],
+  ]
 })
 export class AppModule {}

@@ -1,6 +1,7 @@
 import { Entity, Post, PostType, PostState, StorableEntity} from '@project/core';
 
 
+
 export class BlogPostEntity extends Entity implements StorableEntity<Post> {
     public name: string;
     public text: string;
@@ -20,6 +21,7 @@ export class BlogPostEntity extends Entity implements StorableEntity<Post> {
     public description?: string;
     public createDate: Date;
     public publicationDate: Date;
+    public photo?: string;
 
     constructor(post?: Post) {
       super();
@@ -30,6 +32,7 @@ export class BlogPostEntity extends Entity implements StorableEntity<Post> {
       if (!post) {
         return;
       }
+
       this.id = post.id ?? '';
       this.name = post.name;
       this.text = post.text;
@@ -49,6 +52,7 @@ export class BlogPostEntity extends Entity implements StorableEntity<Post> {
       this.quoteAuthor = post.quoteAuthor || undefined;
       this.quoteText = post.quoteText || undefined;
       this.description = post.description || undefined;
+      this.photo = post.photo || undefined;
     }
 
     public toPOJO(): Post {
@@ -58,7 +62,7 @@ export class BlogPostEntity extends Entity implements StorableEntity<Post> {
         text: this.text,
         postType: this.postType,
         userId: this.userId,
-        isRepost: this.originalId || null ? true : false,
+        isRepost: Boolean(this.originalId),
         originalId: this.originalId,
         originalUserId: this.originalUserId,
         tags: this.tags,
@@ -75,6 +79,7 @@ export class BlogPostEntity extends Entity implements StorableEntity<Post> {
         quoteText: this.quoteText,
         quoteAuthor: this.quoteAuthor,
         description: this.description,
+        photo: this.photo
       };
   }
 }

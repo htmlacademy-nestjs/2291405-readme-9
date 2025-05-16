@@ -19,6 +19,7 @@
     "customConditions": ["development"],
     "strictPropertyInitialization" : false,
     "experimentalDecorators": true,
-    "emitDecoratorMetadata": true
+    "emitDecoratorMetadata": true,
+    "skipDefaultLibCheck": true,
   }
 }

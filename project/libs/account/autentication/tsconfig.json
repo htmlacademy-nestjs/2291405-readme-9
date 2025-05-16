@@ -4,6 +4,15 @@
   "include": [],
   "references": [
     {
+      "path": "../../shared/core"
+    },
+    {
+      "path": "../blog-user"
+    },
+    {
+      "path": "../../shared/helpers"
+    },
+    {
       "path": "./tsconfig.lib.json"
     },
     {

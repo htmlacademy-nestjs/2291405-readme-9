@@ -20,9 +20,6 @@
       "path": "./apps/notify"
     },
     {
-      "path": "./apps/api-e2e"
-    },
-    {
       "path": "./apps/api"
     },
     {
@@ -48,6 +45,9 @@
     },
     {
       "path": "./libs/blog/blog-like"
+    },
+    {
+      "path": "./libs/blog/blog-models"
     }
   ]
 }
