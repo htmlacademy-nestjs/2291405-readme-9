@@ -4,6 +4,12 @@
   "include": [],
   "references": [
     {
+      "path": "../../libs/account/autentication"
+    },
+    {
+      "path": "../../libs/account/blog-user"
+    },
+    {
       "path": "./tsconfig.app.json"
     }
   ]
