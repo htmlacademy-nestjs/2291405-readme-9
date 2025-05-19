@@ -37,7 +37,7 @@ export class BlogUserRepository extends BasePostgresRepository<BlogUserEntity, U
       return null;
     }
 
-    return this.entityFactory.create(user);
+    return this.createEntityFromDocument(user);
   }
 
   public override async findById(id: string): Promise<BlogUserEntity | null> {
@@ -48,7 +48,7 @@ export class BlogUserRepository extends BasePostgresRepository<BlogUserEntity, U
     });
 
     if (! user) {
-      throw new NotFoundException(`Category with id ${id} not found.`);
+      throw new NotFoundException(`User with id ${id} not found.`);
     }
 
     return this.createEntityFromDocument(user);

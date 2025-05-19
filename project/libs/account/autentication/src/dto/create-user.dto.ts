@@ -35,5 +35,5 @@ export class CreateUserDto {
 @ApiProperty(AuthenticationProperty.Avatar.Description)
   @IsString()
   @IsOptional()
-  public avatar?: string;
+  public avatar: string | null;
 }

@@ -23,7 +23,7 @@
         "executor": "nx:run-commands",
         "options": {
         "command": [
-            "npx prisma generate --schema ../../libs/account/model/prisma/schema.prisma"
+            "npx prisma generate --schema=../../libs/account/model/prisma/schema.prisma"
         ],
         "cwd": "apps/account"
         }
