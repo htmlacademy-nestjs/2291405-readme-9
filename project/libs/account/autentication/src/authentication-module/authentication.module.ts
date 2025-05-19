@@ -4,11 +4,13 @@ import { BlogUserModule } from '@project/blog-user';
 
 import { AuthenticationController } from './authentication.controller';
 import { AuthenticationService } from './authentication.service';
+import { PrismaClientModule } from '@project/model';
 
 
 @Module({
   imports: [
-    BlogUserModule
+    BlogUserModule,
+    PrismaClientModule
   ],
   controllers: [AuthenticationController],
   providers: [

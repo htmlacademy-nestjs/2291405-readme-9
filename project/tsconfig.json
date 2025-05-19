@@ -48,6 +48,9 @@
     },
     {
       "path": "./libs/blog/blog-models"
+    },
+    {
+      "path": "./libs/account/model"
     }
   ]
 }

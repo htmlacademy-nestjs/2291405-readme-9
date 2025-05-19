@@ -14,6 +14,9 @@
       "path": "../../shared/core/tsconfig.lib.json"
     },
     {
+      "path": "../model/tsconfig.lib.json"
+    },
+    {
       "path": "../blog-user/tsconfig.lib.json"
     },
     {

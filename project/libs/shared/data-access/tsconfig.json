@@ -4,6 +4,9 @@
   "include": [],
   "references": [
     {
+      "path": "../../account/model"
+    },
+    {
       "path": "../core"
     },
     {
