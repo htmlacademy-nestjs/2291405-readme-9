@@ -164,7 +164,7 @@ export const BlogPostProperty = {
       format: 'binary',
     },
     Validate: {
-      FileExtRegExp: /\.(jpg|jpeg|png)$/,
+      FileExtRegExp: /\.(jpg|png)$/,
       MaxSize: 1024 * 1024,
       Message: 'It is allowed to upload a jpg or png image (size <= 1 Mb)',
     },
