@@ -27,6 +27,15 @@
         ],
         "cwd": "apps/account"
         }
+    },
+    "db-blog-generate": {
+        "executor": "nx:run-commands",
+        "options": {
+        "command": [
+            "npx prisma generate --schema=../../libs/blog/blog-models/prisma/schema.prisma"
+        ],
+        "cwd": "apps/blog"
+        }
     }
   },
   "tags": []

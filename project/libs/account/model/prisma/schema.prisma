@@ -6,7 +6,7 @@
 
 generator client {
   provider = "prisma-client-js"
-  output = "../../../../node_modules/.prisma/client"
+  output = "../../../../node_modules/@prisma/user-client"
   engineType = "binary"
 }
 
@@ -16,14 +16,14 @@ datasource db {
 }
 
 model User  {
-  id              String    @id @default(uuid())
+  id              String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   email           String
   name            String
   avatar          String?
   passwordHash    String    @map("password_hash")
   registerDate    DateTime  @default(now()) @map("register_date")
-  postCount       Int?      @map("post_count") 
-  subscriberCount Int?      @map("subscriber_count")
+  postCount       Int      @map("post_count") 
+  subscriberCount Int      @map("subscriber_count")
 
   @@map("users")
 }

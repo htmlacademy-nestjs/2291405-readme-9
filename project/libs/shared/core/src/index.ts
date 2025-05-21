@@ -11,3 +11,5 @@ export { Tag } from './lib/types/tag.interface';
 
 export { StorableEntity } from './lib/interfaces/storable-entity.interface';
 export { EntityFactory } from './lib/interfaces/entity-facetory.interface';
+
+export { CommonResponse } from './lib/constants/common-responses';

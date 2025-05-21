@@ -7,7 +7,7 @@ export class ChangePasswordUserDto {
 
   @ApiProperty(AuthenticationProperty.Id.Description)
   @IsString()
-  public userId: string;
+  public id: string;
 
   @ApiProperty(AuthenticationProperty.OldPassword.Description)
   @IsString()

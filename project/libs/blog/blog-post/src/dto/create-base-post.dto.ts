@@ -1,22 +1,25 @@
-import { PostState, PostType } from "@project/core";
+import { ApiProperty } from "@nestjs/swagger";
+import { PostType } from "@project/core";
 import { IsArray, IsIn, IsNotEmpty, IsOptional, IsString } from "class-validator";
+
+import { BlogPostProperty } from "../swagger/blog-post-property";
 
 
 export class CreateBlogPostDto {
 
   @IsIn(Object.values(PostType))
   @IsNotEmpty()
+  @ApiProperty(BlogPostProperty.PostType.Description)
   postType: PostType;
 
-  @IsIn(Object.values(PostType))
-  @IsNotEmpty()
-  postState: PostState;
-
   @IsString()
+  @IsNotEmpty()
+  @ApiProperty(BlogPostProperty.UserId.Description)
   userId: string;
 
   @IsOptional()
   @IsArray()
   @IsString({ each: true })
-  tags?: string[] | undefined;
+  @ApiProperty(BlogPostProperty.Tags.Description)
+  tags: string[];
 }

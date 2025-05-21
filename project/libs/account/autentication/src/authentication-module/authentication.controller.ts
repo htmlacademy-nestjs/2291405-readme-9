@@ -1,5 +1,5 @@
 import { Body, Controller, Get, Param, Post} from '@nestjs/common';
-import { ApiResponse } from '@nestjs/swagger';
+import { ApiResponse, ApiTags } from '@nestjs/swagger';
 
 import { fillDto } from '@project/helpers';
 
@@ -12,7 +12,7 @@ import { AuthenticationResponse } from './authentication.response';
 import { ChangePasswordUserDto } from '../dto/change-password-user.dto';
 
 
-
+@ApiTags('Authentication')
 @Controller('auth')
 export class AuthenticationController {
   constructor(

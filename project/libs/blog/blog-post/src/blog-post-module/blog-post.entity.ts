@@ -3,15 +3,15 @@ import { Entity, Post, PostType, PostState, StorableEntity} from '@project/core'
 
 
 export class BlogPostEntity extends Entity implements StorableEntity<Post> {
-    public name: string;
-    public text: string;
+    public name?: string;
+    public text?: string;
     public postType: PostType;
     public postState: PostState;
     public userId: string;
     public isRepost: boolean;
     public originalId?: string;
-    public originalUserId?: string;
-    public tags: string[];
+    public originalUserId: string;
+    public tags?: string[];
     public likeCount: number;
     public commentCount: number;
     public url?: string;
@@ -39,25 +39,25 @@ export class BlogPostEntity extends Entity implements StorableEntity<Post> {
       this.postType = post.postType;
       this.userId = post.userId;
       this.isRepost = this.originalId || null ? true : false;
-      this.originalId = post.originalId || undefined;
-      this.originalUserId = post.originalUserId || undefined;
+      this.originalId = post.originalId;
+      this.originalUserId = post.originalUserId ?? post.userId;
       this.tags = post.tags ?? [];
-      this.postState = !post.publicationDate || post.publicationDate > new Date() ? PostState.Draft: PostState.Published;
+      this.postState = !post.publicationDate || post.publicationDate > new Date() ? PostState.DRAFT: PostState.PUBLISHED;
       this.createDate = post.createDate ?? new Date();
       this.publicationDate = post.publicationDate ?? new Date();
       this.likeCount = post.likeCount ?? 0;
       this.commentCount = post.commentCount ?? 0;
-      this.url = post.url || undefined;
+      this.url = post.url;
       this.preview = post.preview;
-      this.quoteAuthor = post.quoteAuthor || undefined;
-      this.quoteText = post.quoteText || undefined;
-      this.description = post.description || undefined;
-      this.photo = post.photo || undefined;
+      this.quoteAuthor = post.quoteAuthor
+      this.quoteText = post.quoteText;
+      this.description = post.description;
+      this.photo = post.photo;
     }
 
     public toPOJO(): Post {
       return {
-        id: this.id,
+        id: this.id || undefined,
         name: this.name,
         text: this.text,
         postType: this.postType,
@@ -68,12 +68,10 @@ export class BlogPostEntity extends Entity implements StorableEntity<Post> {
         tags: this.tags,
         postState:
           !this.publicationDate || this.publicationDate > new Date()
-            ? PostState.Draft
-            : PostState.Published,
+            ? PostState.DRAFT
+            : PostState.PUBLISHED,
         createDate: this.createDate,
         publicationDate: this.publicationDate,
-        likeCount: this.likeCount,
-        commentCount: this.commentCount,
         url: this.url,
         preview: this.preview,
         quoteText: this.quoteText,

@@ -56,12 +56,12 @@ export class AuthenticationService {
   }
 
     public async updatePassword(dto: ChangePasswordUserDto) {
-    if (!dto.userId) {
+    if (!dto.id) {
       throw new UnauthorizedException(
         AuthenticationResponse.UserNotAuth.description
       );
     }
-    const existUser = await this.blogUserRepository.findById(dto.userId);
+    const existUser = await this.blogUserRepository.findById(dto.id);
     if (!existUser) {
       throw new NotFoundException(
         AuthenticationResponse.UserNotFound.description

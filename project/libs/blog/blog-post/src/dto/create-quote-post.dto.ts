@@ -1,13 +1,27 @@
-import { IsNotEmpty, IsString } from "class-validator";
+import { IsNotEmpty, IsString, Length, ValidateIf } from "class-validator";
 import { CreateBlogPostDto } from "./create-base-post.dto";
+import { BlogPostProperty } from "../swagger/blog-post-property";
+import { ApiProperty } from "@nestjs/swagger";
+import { PostType } from "@project/core";
 
 export class CreateQuotePostDto extends CreateBlogPostDto {
 
   @IsString()
   @IsNotEmpty()
+  @Length(
+    BlogPostProperty.QuoteText.Validate.MinLength,
+    BlogPostProperty.QuoteText.Validate.MaxLength
+  )
+  @ApiProperty(BlogPostProperty.QuoteText.Description)
   quoteText: string;
 
   @IsString()
   @IsNotEmpty()
+  @Length(
+    BlogPostProperty.QuoteAuthor.Validate.MinLength,
+    BlogPostProperty.QuoteAuthor.Validate.MaxLength
+  )
+  @ValidateIf((o) => o.postType === PostType.QUOTE)
+  @ApiProperty(BlogPostProperty.QuoteAuthor.Description)
   quoteAuthor: string;
 }

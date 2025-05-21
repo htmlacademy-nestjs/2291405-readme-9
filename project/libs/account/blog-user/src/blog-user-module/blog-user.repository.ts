@@ -18,6 +18,7 @@ export class BlogUserRepository extends BasePostgresRepository<BlogUserEntity, U
   }
 
   public override async save(entity: BlogUserEntity): Promise<BlogUserEntity> {
+    console.log(entity.toPOJO() )
     const record = await this.client.user.create({
       data: { ...entity.toPOJO() }
     });
