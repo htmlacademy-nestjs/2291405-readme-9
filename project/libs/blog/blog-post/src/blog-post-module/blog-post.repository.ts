@@ -1,17 +1,14 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-
+import { PrismaBlogClientService } from '@project/blog-model';
 import { BasePostgresRepository } from '@project/data-access';
-
 import { BlogPostEntity } from './blog-post.entity';
 import { BlogPostFactory } from './blog-post.factory';
-import { PrismaBlogClientService } from '@project/blog-models';
-
 
 @Injectable()
 export class BlogPostRepository extends BasePostgresRepository<BlogPostEntity> {
   constructor(
     entityFactory: BlogPostFactory,
-    override readonly client: PrismaBlogClientService
+    override readonly client: PrismaBlogClientService,
   ) {
     super(entityFactory, client);
   }
@@ -19,15 +16,17 @@ export class BlogPostRepository extends BasePostgresRepository<BlogPostEntity> {
   public override async save(entity: BlogPostEntity): Promise<BlogPostEntity> {
     const pojoEntity = entity.toPOJO();
 
-    await this.client.post.create({
+    const record = await this.client.post.create({
       data: {
         ...pojoEntity,
-        tags: pojoEntity.tags ? {
-          connectOrCreate: pojoEntity.tags.map((tag) => ({
-            create: { name: tag },
-            where: { name: tag },
-          })),
-        } : undefined,
+        tags: pojoEntity.tags
+          ? {
+              connectOrCreate: pojoEntity.tags.map((tag) => ({
+                create: { name: tag },
+                where: { name: tag },
+              })),
+            }
+          : undefined,
         comments: {
           connect: [],
         },
@@ -37,12 +36,11 @@ export class BlogPostRepository extends BasePostgresRepository<BlogPostEntity> {
       },
     });
 
-    //const postEntity = await this.findById(record.id);
-    //if (postEntity) {
-    //  return postEntity;
-    //}
-    //throw new Error('Unexpected error');
-    return entity;
+    const postEntity = await this.findById(record.id);
+    if (postEntity) {
+      return postEntity;
+    }
+    throw new Error('Unexpected error');
   }
 
   public override async findById(id: string): Promise<BlogPostEntity | null> {
@@ -52,12 +50,11 @@ export class BlogPostRepository extends BasePostgresRepository<BlogPostEntity> {
       },
     });
 
-    if (! post) {
+    if (!post) {
       throw new NotFoundException(`Post with id ${id} not found.`);
     }
 
-    //return this.createEntityFromDocument(post);
-    return null;
+    return this.createEntityFromDocument(post);
   }
 
   public override async deleteById(id: string): Promise<void> {

@@ -1,11 +1,10 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNotEmpty, IsString, ValidateIf } from "class-validator";
-import { CreateBlogPostDto } from "./create-base-post.dto";
 import { PostType } from '@project/core';
+import { IsNotEmpty, IsString, ValidateIf } from 'class-validator';
 import { BlogPostProperty } from '../swagger/blog-post-property';
+import { CreateBlogPostDto } from './create-base-post.dto';
 
 export class CreateVideoPostDto extends CreateBlogPostDto {
-
   @IsString()
   @IsNotEmpty()
   @ApiProperty(BlogPostProperty.Name.Description)

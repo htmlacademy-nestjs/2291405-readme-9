@@ -1,25 +1,31 @@
 {
+  "compileOnSave": false,
   "compilerOptions": {
-    "composite": true,
-    "declarationMap": true,
-    "emitDeclarationOnly": true,
-    "importHelpers": true,
-    "isolatedModules": false,
-    "lib": ["es2022"],
-    "module": "nodenext",
-    "moduleResolution": "nodenext",
-    "noEmitOnError": true,
-    "noFallthroughCasesInSwitch": true,
-    "noImplicitOverride": true,
-    "noImplicitReturns": true,
-    "noUnusedLocals": true,
-    "skipLibCheck": true,
-    "strict": true,
-    "target": "es2022",
-    "customConditions": ["development"],
-    "strictPropertyInitialization" : false,
-    "experimentalDecorators": true,
+    "rootDir": ".",
+    "sourceMap": true,
+    "declaration": false,
+    "moduleResolution": "node",
     "emitDecoratorMetadata": true,
-    "skipDefaultLibCheck": true
-  }
+    "experimentalDecorators": true,
+    "importHelpers": true,
+    "target": "es2015",
+    "module": "esnext",
+    "lib": ["es2020", "dom"],
+    "skipLibCheck": true,
+    "skipDefaultLibCheck": true,
+    "baseUrl": ".",
+    "paths": {
+      "@project/authentication": ["libs/account/authentication/src/index.ts"],
+      "@project/blog-comment": ["libs/blog/blog-comment/src/index.ts"],
+      "@project/blog-like": ["libs/blog/blog-like/src/index.ts"],
+      "@project/blog-model": ["libs/blog/blog-model/src/index.ts"],
+      "@project/blog-post": ["libs/blog/blog-post/src/index.ts"],
+      "@project/blog-user": ["libs/account/blog-user/src/index.ts"],
+      "@project/core": ["libs/shared/core/src/index.ts"],
+      "@project/data-access": ["libs/shared/data-access/src/index.ts"],
+      "@project/helpers": ["libs/shared/helpers/src/index.ts"],
+      "@project/model": ["libs/account/model/src/index.ts"]
+    }
+  },
+  "exclude": ["node_modules", "tmp"]
 }

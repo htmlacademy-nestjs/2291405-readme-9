@@ -1,21 +1,17 @@
 import { Injectable } from '@nestjs/common';
-
-import { Post, EntityFactory, PostType, PostState } from '@project/core';
+import { EntityFactory, Post, PostState, PostType } from '@project/core';
+import { CreateLinkPostDto } from '../dto/create-link-post.dto';
+import { CreatePhotoPostDto } from '../dto/create-photo-post.dto';
+import { CreateQuotePostDto } from '../dto/create-quote-post.dto';
+import { CreateTextPostDto } from '../dto/create-text-post.dto';
+import { CreateVideoPostDto } from '../dto/create-video-post.dto';
 import { BlogPostEntity } from './blog-post.entity';
-import { CreateVideoPostDto } from 'src/dto/create-video-post.dto';
-import { CreateTextPostDto } from 'src/dto/create-text-post.dto';
-import { CreateQuotePostDto } from 'src/dto/create-quote-post.dto';
-import { CreatePhotoPostDto } from 'src/dto/create-photo-post.dto';
-import { CreateLinkPostDto } from 'src/dto/create-link-post.dto';
-
 
 @Injectable()
 export class BlogPostFactory implements EntityFactory<BlogPostEntity> {
-
   public create(entityPlainData: Post): BlogPostEntity {
     return new BlogPostEntity(entityPlainData);
   }
-
 
   public createVideoPost(dto: CreateVideoPostDto): BlogPostEntity {
     const post: Post = {
@@ -28,9 +24,9 @@ export class BlogPostFactory implements EntityFactory<BlogPostEntity> {
       commentCount: 0,
       tags: dto.tags,
       createDate: new Date(),
-      publicationDate: new Date()
-    }
-    
+      publicationDate: new Date(),
+    };
+
     const entity = new BlogPostEntity(post);
     entity.name = dto.name;
     entity.url = dto.url;
@@ -49,10 +45,10 @@ export class BlogPostFactory implements EntityFactory<BlogPostEntity> {
       commentCount: 0,
       tags: dto.tags,
       createDate: new Date(),
-      publicationDate: new Date()
-    }
+      publicationDate: new Date(),
+    };
 
-    const entity = new BlogPostEntity(post);       
+    const entity = new BlogPostEntity(post);
     entity.name = dto.name;
     entity.preview = dto.preview;
     entity.text = dto.text;
@@ -71,8 +67,8 @@ export class BlogPostFactory implements EntityFactory<BlogPostEntity> {
       commentCount: 0,
       tags: dto.tags,
       createDate: new Date(),
-      publicationDate: new Date()
-    }
+      publicationDate: new Date(),
+    };
 
     const entity = new BlogPostEntity(post);
     entity.quoteText = dto.quoteText;
@@ -91,8 +87,8 @@ export class BlogPostFactory implements EntityFactory<BlogPostEntity> {
       commentCount: 0,
       tags: dto.tags,
       createDate: new Date(),
-      publicationDate: new Date()
-    }
+      publicationDate: new Date(),
+    };
 
     const entity = new BlogPostEntity(post);
     entity.photo = dto.photo;
@@ -111,8 +107,8 @@ export class BlogPostFactory implements EntityFactory<BlogPostEntity> {
       commentCount: 0,
       tags: dto.tags,
       createDate: new Date(),
-      publicationDate: new Date()
-    }
+      publicationDate: new Date(),
+    };
 
     const entity = new BlogPostEntity(post);
     entity.url = dto.url;

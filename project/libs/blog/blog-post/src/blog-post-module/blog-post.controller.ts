@@ -1,33 +1,37 @@
-import { Body, Controller, Delete, Get, HttpCode, Param, Post} from '@nestjs/common';
-
-import { CreateVideoPostDto } from '../dto/create-video-post.dto';
-import { CreateTextPostDto } from '../dto/create-text-post.dto';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  HttpCode,
+  Param,
+  Post,
+} from '@nestjs/common';
+import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { CommonResponse } from '@project/core';
+import { fillDto } from '@project/helpers';
 import { CreateLinkPostDto } from '../dto/create-link-post.dto';
 import { CreatePhotoPostDto } from '../dto/create-photo-post.dto';
 import { CreateQuotePostDto } from '../dto/create-quote-post.dto';
-import { BlogPostService } from './blog-post.service';
+import { CreateTextPostDto } from '../dto/create-text-post.dto';
+import { CreateVideoPostDto } from '../dto/create-video-post.dto';
 import { BlogPostRdo } from '../rdo/blog-post.rdo';
-import { fillDto } from '@project/helpers';
-import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
-
-import { BlogPostResponse } from '../swagger/blog-post-response';
 import { BlogPostAction } from '../swagger/blog-post-action';
-import { CommonResponse } from '@project/core';
-
-
+import { BlogPostResponse } from '../swagger/blog-post-response';
+import { BlogPostService } from './blog-post.service';
 
 @ApiTags('Blog')
 @Controller('blog')
 export class BlogPostController {
-  constructor(
-    private readonly blogPostService: BlogPostService
-  ) {}
+  constructor(private readonly blogPostService: BlogPostService) {}
 
   @Post('create/video')
   @ApiOperation(BlogPostAction.CreateVideo)
   @ApiResponse(BlogPostResponse.PostCreated)
   @ApiResponse(CommonResponse.BadRequest)
-  public async createVideo(@Body() dto: CreateVideoPostDto): Promise<BlogPostRdo> {
+  public async createVideo(
+    @Body() dto: CreateVideoPostDto,
+  ): Promise<BlogPostRdo> {
     const newPost = await this.blogPostService.createVideoPost(dto);
     return fillDto(BlogPostRdo, newPost.toPOJO());
   }
@@ -36,7 +40,9 @@ export class BlogPostController {
   @ApiOperation(BlogPostAction.CreateText)
   @ApiResponse(BlogPostResponse.PostCreated)
   @ApiResponse(CommonResponse.BadRequest)
-  public async createText(@Body() dto: CreateTextPostDto): Promise<BlogPostRdo> {
+  public async createText(
+    @Body() dto: CreateTextPostDto,
+  ): Promise<BlogPostRdo> {
     const newPost = await this.blogPostService.createTextPost(dto);
     return fillDto(BlogPostRdo, newPost.toPOJO());
   }
@@ -45,7 +51,9 @@ export class BlogPostController {
   @ApiOperation(BlogPostAction.CreateQuote)
   @ApiResponse(BlogPostResponse.PostCreated)
   @ApiResponse(CommonResponse.BadRequest)
-  public async createQuote(@Body() dto: CreateQuotePostDto): Promise<BlogPostRdo>  {
+  public async createQuote(
+    @Body() dto: CreateQuotePostDto,
+  ): Promise<BlogPostRdo> {
     const newPost = await this.blogPostService.createQuotePost(dto);
     return fillDto(BlogPostRdo, newPost.toPOJO());
   }
@@ -54,7 +62,9 @@ export class BlogPostController {
   @ApiOperation(BlogPostAction.CreatePhoto)
   @ApiResponse(BlogPostResponse.PostCreated)
   @ApiResponse(CommonResponse.BadRequest)
-  public async createPhoto(@Body() dto: CreatePhotoPostDto): Promise<BlogPostRdo>  {
+  public async createPhoto(
+    @Body() dto: CreatePhotoPostDto,
+  ): Promise<BlogPostRdo> {
     const newPost = await this.blogPostService.createPhotoPost(dto);
     return fillDto(BlogPostRdo, newPost.toPOJO());
   }
@@ -63,7 +73,9 @@ export class BlogPostController {
   @ApiOperation(BlogPostAction.CreateLink)
   @ApiResponse(BlogPostResponse.PostCreated)
   @ApiResponse(CommonResponse.BadRequest)
-  public async createLink(@Body() dto: CreateLinkPostDto): Promise<BlogPostRdo>  {
+  public async createLink(
+    @Body() dto: CreateLinkPostDto,
+  ): Promise<BlogPostRdo> {
     const newPost = await this.blogPostService.createLinkPost(dto);
     return fillDto(BlogPostRdo, newPost.toPOJO());
   }
@@ -88,8 +100,11 @@ export class BlogPostController {
   }
 
   @Post('/repost/:id/:userId')
-  public async repost(@Param('id') id: string, @Param('userId') userId: string) {
-      throw new Error('Not implemented');
+  public async repost(
+    @Param('id') id: string,
+    @Param('userId') userId: string,
+  ) {
+    throw new Error('Not implemented');
   }
 
   @Post('search')

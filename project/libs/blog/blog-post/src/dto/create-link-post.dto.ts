@@ -1,17 +1,22 @@
-import { IsNotEmpty, IsOptional, IsString, IsUrl, Length, ValidateIf } from "class-validator";
-import { CreateBlogPostDto } from "./create-base-post.dto";
-import { PostType } from "@project/core";
-import { BlogPostProperty } from "../swagger/blog-post-property";
-import { ApiProperty } from "@nestjs/swagger";
+import { ApiProperty } from '@nestjs/swagger';
+import { PostType } from '@project/core';
+import {
+  IsNotEmpty,
+  IsOptional,
+  IsString,
+  IsUrl,
+  Length,
+  ValidateIf,
+} from 'class-validator';
+import { BlogPostProperty } from '../swagger/blog-post-property';
+import { CreateBlogPostDto } from './create-base-post.dto';
 
 export class CreateLinkPostDto extends CreateBlogPostDto {
-
   @IsNotEmpty()
   @ValidateIf((o) => [PostType.VIDEO, PostType.LINK].includes(o.postType))
   @IsUrl()
   @ApiProperty(BlogPostProperty.Url.Description)
   url: string;
-
 
   @IsString()
   @IsNotEmpty()

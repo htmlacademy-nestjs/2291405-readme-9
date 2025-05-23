@@ -1,9 +1,7 @@
-import { PostType } from './post-type.enum';
-import { PostState } from './post-state.enum';
-import { Tag } from './tag.interface';
+import { PostState, PostType } from '@prisma/blog-client';
 import { Comment } from './comment.interface';
 import { Like } from './like.interface';
-
+import { Tag } from './tag.interface';
 
 export interface BasePost {
   id?: string;
@@ -47,7 +45,7 @@ export interface LinkPost extends BasePost {
 
 export interface Post {
   id?: string;
-  name? : string;
+  name?: string;
   url?: string;
   preview?: string;
   text?: string;

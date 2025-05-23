@@ -1,15 +1,15 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-
+import { User } from '@project/core';
 import { BasePostgresRepository } from '@project/data-access';
-
-
+import { PrismaClientService } from '@project/model';
 import { BlogUserEntity } from './blog-user.entity';
 import { BlogUserFactory } from './blog-user.factory';
-import { User } from '@project/core';
-import { PrismaClientService } from '@project/model';
 
 @Injectable()
-export class BlogUserRepository extends BasePostgresRepository<BlogUserEntity, User> {
+export class BlogUserRepository extends BasePostgresRepository<
+  BlogUserEntity,
+  User
+> {
   constructor(
     entityFactory: BlogUserFactory,
     override readonly client: PrismaClientService,
@@ -18,9 +18,9 @@ export class BlogUserRepository extends BasePostgresRepository<BlogUserEntity, U
   }
 
   public override async save(entity: BlogUserEntity): Promise<BlogUserEntity> {
-    console.log(entity.toPOJO() )
+    console.log(entity.toPOJO());
     const record = await this.client.user.create({
-      data: { ...entity.toPOJO() }
+      data: { ...entity.toPOJO() },
     });
 
     entity.id = record.id;
@@ -30,11 +30,11 @@ export class BlogUserRepository extends BasePostgresRepository<BlogUserEntity, U
   public async findByEmail(email: string): Promise<BlogUserEntity | null> {
     const user = await this.client.user.findFirst({
       where: {
-        email: email
-      }
+        email: email,
+      },
     });
 
-    if (! user) {
+    if (!user) {
       return null;
     }
 
@@ -48,7 +48,7 @@ export class BlogUserRepository extends BasePostgresRepository<BlogUserEntity, U
       },
     });
 
-    if (! user) {
+    if (!user) {
       throw new NotFoundException(`User with id ${id} not found.`);
     }
 

@@ -1,8 +1,4 @@
-import {
-  PostState,
-  PostType
-} from '@project/core';
-
+import { PostState, PostType } from '@prisma/blog-client';
 
 export const BlogPostProperty = {
   Id: {
@@ -197,5 +193,5 @@ export const BlogPostProperty = {
     Description: {
       description: 'Comments post',
     },
-  }
+  },
 } as const;

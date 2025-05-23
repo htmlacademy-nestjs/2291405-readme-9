@@ -1,20 +1,11 @@
 {
   "extends": "../../../tsconfig.base.json",
+  "compilerOptions": {
+    "module": "commonjs"
+  },
   "files": [],
   "include": [],
   "references": [
-    {
-      "path": "../../shared/data-access"
-    },
-    {
-      "path": "../blog-models"
-    },
-    {
-      "path": "../../shared/core"
-    },
-    {
-      "path": "../../shared/helpers"
-    },
     {
       "path": "./tsconfig.lib.json"
     },

@@ -1,10 +1,7 @@
-import { Expose } from 'class-transformer';
 import { ApiProperty } from '@nestjs/swagger';
-
-import { PostState, PostType } from '@project/core';
+import { Comment, PostState, PostType } from '@project/core';
+import { Expose } from 'class-transformer';
 import { BlogPostProperty } from '../swagger/blog-post-property';
-import { Comment } from '@project/core';
-
 
 export class BlogPostRdo {
   @ApiProperty(BlogPostProperty.Id.Description)

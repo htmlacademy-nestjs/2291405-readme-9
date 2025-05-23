@@ -1,7 +1,6 @@
 import { HttpStatus } from '@nestjs/common';
 import { BlogPostRdo } from '../rdo/blog-post.rdo';
 
-
 export const BlogPostResponse = {
   PostCreated: {
     type: BlogPostRdo,
@@ -25,5 +24,5 @@ export const BlogPostResponse = {
   PostNotFound: {
     status: HttpStatus.NOT_FOUND,
     description: 'Post not found',
-  }
+  },
 } as const;
