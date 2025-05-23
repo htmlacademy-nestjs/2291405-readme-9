@@ -1,6 +1,8 @@
 import { Comment, Entity, StorableEntity } from '@project/core';
 
-export class BlogCommentEntity extends Entity implements StorableEntity<Comment>
+export class BlogCommentEntity
+  extends Entity
+  implements StorableEntity<Comment>
 {
   public postId: string;
   public userId: string;
@@ -29,7 +31,7 @@ export class BlogCommentEntity extends Entity implements StorableEntity<Comment>
       postId: this.postId,
       userId: this.userId,
       text: this.text,
-      createDate: this.createDate
+      createDate: this.createDate,
     };
   }
 }

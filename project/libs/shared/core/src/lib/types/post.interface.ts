@@ -1,6 +1,7 @@
-import { PostType } from './post-type.enum';
-import { PostState } from './post-state.enum';
-
+import { PostState, PostType } from '@prisma/blog-client';
+import { Comment } from './comment.interface';
+import { Like } from './like.interface';
+import { Tag } from './tag.interface';
 
 export interface BasePost {
   id?: string;
@@ -8,11 +9,11 @@ export interface BasePost {
   postState: PostState;
   userId: string;
   isRepost: boolean;
-  originalId?: string;
-  originalUserId?: string;
-  tags?: string[];
-  likeCount?: number;
-  commentCount?: number;
+  originalId: string;
+  originalUserId: string;
+  tags?: Tag[];
+  likes?: Like[];
+  comment?: Comment[];
   createDate: Date;
   publicationDate: Date;
 }
@@ -44,16 +45,16 @@ export interface LinkPost extends BasePost {
 
 export interface Post {
   id?: string;
-  name : string;
+  name?: string;
   url?: string;
   preview?: string;
-  text: string;
+  text?: string;
   postType: PostType;
   postState: PostState;
   userId: string;
-  isRepost?: boolean;
+  isRepost: boolean;
   originalId?: string;
-  originalUserId?: string;
+  originalUserId: string;
   tags?: string[];
   likeCount?: number;
   commentCount?: number;

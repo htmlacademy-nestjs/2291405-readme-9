@@ -1,5 +1,4 @@
 import { Injectable } from '@nestjs/common';
-
 import { AuthUser, EntityFactory } from '@project/core';
 import { BlogUserEntity } from './blog-user.entity';
 

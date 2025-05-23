@@ -1,8 +1,6 @@
 import { Injectable } from '@nestjs/common';
-
 import { Comment, EntityFactory } from '@project/core';
 import { BlogCommentEntity } from './blog-comment.entity';
-
 
 @Injectable()
 export class BlogCommentFactory implements EntityFactory<BlogCommentEntity> {

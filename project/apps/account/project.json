@@ -1,0 +1,31 @@
+{
+  "name": "account",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/account/src",
+  "projectType": "application",
+  "targets": {
+    "serve": {
+      "executor": "@nx/js:node",
+      "defaultConfiguration": "development",
+      "options": {
+        "buildTarget": "account:build"
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "account:build:development"
+        },
+        "production": {
+          "buildTarget": "account:build:production"
+        }
+      }
+    },
+    "db-generate": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "npx prisma generate --schema=../../libs/account/model/prisma/schema.prisma",
+        "cwd": "apps/account"
+      }
+    }
+  },
+  "tags": []
+}

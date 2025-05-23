@@ -1,0 +1,46 @@
+services:
+  readme.account.postgres:
+    image: postgres:14-alpine
+    restart: always
+    container_name: readme.account.postgres
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_ACCOUNT_DB}
+    ports:
+      - ${POSTGRES_ACCOUNT_PORT}:5432
+    volumes:
+      - readme.postgres.account:\\wsl$\docker-desktop-data\data\docker\volumes\postgresql\data
+
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}']
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
+    networks:
+      - readme.blog
+
+  readme.account.pgadmin:
+    image: dpage/pgadmin4
+    restart: always
+    container_name: readme.account.pgadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
+      PGADMIN_CONFIG_SERVER_MODE: 'False'
+    ports:
+      - ${PGADMIN_PORT}:80
+    depends_on:
+      - readme.account.postgres
+    networks:
+      - readme.blog
+
+
+volumes:
+  readme.postgres.account:
+
+networks:
+  readme.blog:
+    driver: bridge

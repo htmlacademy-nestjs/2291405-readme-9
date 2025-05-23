@@ -4,13 +4,13 @@
   "include": [],
   "references": [
     {
-      "path": "../../libs/account/autentication"
-    },
-    {
-      "path": "../../libs/account/blog-user"
-    },
-    {
       "path": "./tsconfig.app.json"
+    },
+    {
+      "path": "./tsconfig.spec.json"
     }
-  ]
+  ],
+  "compilerOptions": {
+    "esModuleInterop": true
+  }
 }

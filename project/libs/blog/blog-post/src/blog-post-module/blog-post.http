@@ -1,0 +1,14 @@
+# Create a new Text post
+POST http://localhost:3000/api/blog/create/text HTTP/1.1
+Content-Type: application/json
+
+{
+  "name": "Test text post",
+  "preview": "Preview text post",
+  "text": "Text text text",
+  "postType": "TEXT",
+  "userId": "ce095ba7-c6d3-40db-83e0-e99b25073f72",
+   "tags": ["auto","test"]
+}
+
+###
