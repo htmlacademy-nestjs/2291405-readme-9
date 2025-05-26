@@ -9,13 +9,13 @@ export interface BasePost {
   postState: PostState;
   userId: string;
   isRepost: boolean;
-  originalId: string;
-  originalUserId: string;
+  originalId?: string;
+  originalUserId?: string;
   tags?: Tag[];
   likes?: Like[];
   comment?: Comment[];
-  createDate: Date;
-  publicationDate: Date;
+  createDate?: Date;
+  publicationDate?: Date;
 }
 
 export interface VideoPost extends BasePost {
@@ -58,8 +58,8 @@ export interface Post {
   tags?: string[];
   likeCount?: number;
   commentCount?: number;
-  createDate: Date;
-  publicationDate: Date;
+  createDate?: Date;
+  publicationDate?: Date;
   quoteAuthor?: string;
   quoteText?: string;
   photo?: string;

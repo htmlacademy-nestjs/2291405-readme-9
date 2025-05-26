@@ -1,5 +1,7 @@
 import { Injectable } from '@nestjs/common';
-import { EntityFactory, Post, PostState, PostType } from '@project/core';
+import { PostState, PostType } from '@prisma/blog-client';
+import { EntityFactory, Post } from '@project/core';
+import dayjs from 'dayjs';
 import { CreateLinkPostDto } from '../dto/create-link-post.dto';
 import { CreatePhotoPostDto } from '../dto/create-photo-post.dto';
 import { CreateQuotePostDto } from '../dto/create-quote-post.dto';
@@ -115,5 +117,19 @@ export class BlogPostFactory implements EntityFactory<BlogPostEntity> {
     entity.description = dto.description;
 
     return entity;
+  }
+
+  public createRepost(originalPost: Post, userId: string): BlogPostEntity {
+    const newPost = new BlogPostEntity(originalPost);
+
+    newPost.userId = userId;
+    newPost.originalUserId = originalPost.userId;
+    newPost.originalId = originalPost.id;
+    newPost.createDate = dayjs().toDate();
+    newPost.publicationDate = dayjs().toDate();
+    newPost.likeCount = 0;
+    newPost.commentCount = 0;
+
+    return newPost;
   }
 }

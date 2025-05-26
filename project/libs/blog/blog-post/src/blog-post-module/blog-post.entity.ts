@@ -11,15 +11,15 @@ export class BlogPostEntity extends Entity implements StorableEntity<Post> {
   public originalId?: string;
   public originalUserId: string;
   public tags?: string[];
-  public likeCount: number;
-  public commentCount: number;
+  public likeCount?: number;
+  public commentCount?: number;
   public url?: string;
   public preview?: string;
   public quoteText?: string;
   public quoteAuthor?: string;
   public description?: string;
-  public createDate: Date;
-  public publicationDate: Date;
+  public createDate?: Date;
+  public publicationDate?: Date;
   public photo?: string;
 
   constructor(post?: Post) {
@@ -32,7 +32,7 @@ export class BlogPostEntity extends Entity implements StorableEntity<Post> {
       return;
     }
 
-    this.id = post.id ?? '';
+    this.id = post.id ?? undefined;
     this.name = post.name;
     this.text = post.text;
     this.postType = post.postType;
@@ -59,7 +59,7 @@ export class BlogPostEntity extends Entity implements StorableEntity<Post> {
 
   public toPOJO(): Post {
     return {
-      id: this.id || undefined,
+      id: this.id,
       name: this.name,
       text: this.text,
       postType: this.postType,

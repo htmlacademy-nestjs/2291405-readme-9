@@ -5,9 +5,11 @@ import {
   Get,
   HttpCode,
   Param,
+  Patch,
   Post,
+  Query,
 } from '@nestjs/common';
-import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ApiBody, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { CommonResponse } from '@project/core';
 import { fillDto } from '@project/helpers';
 import { CreateLinkPostDto } from '../dto/create-link-post.dto';
@@ -16,8 +18,10 @@ import { CreateQuotePostDto } from '../dto/create-quote-post.dto';
 import { CreateTextPostDto } from '../dto/create-text-post.dto';
 import { CreateVideoPostDto } from '../dto/create-video-post.dto';
 import { BlogPostRdo } from '../rdo/blog-post.rdo';
+import { BlogPostWithPaginationRdo } from '../rdo/blog-post-with-pagination.rdo';
 import { BlogPostAction } from '../swagger/blog-post-action';
 import { BlogPostResponse } from '../swagger/blog-post-response';
+import { BlogPostQuery, BlogPostSearchQuery } from './blog-post.query';
 import { BlogPostService } from './blog-post.service';
 
 @ApiTags('Blog')
@@ -81,8 +85,12 @@ export class BlogPostController {
   }
 
   @Get(':id')
+  @ApiOperation(BlogPostAction.View)
+  @ApiResponse(BlogPostResponse.PostFound)
+  @ApiResponse(BlogPostResponse.PostNotFound)
   public async show(@Param('id') id: string) {
-    throw new Error('Not implemented');
+    const post = await this.blogPostService.getPost(id);
+    return fillDto(BlogPostRdo, post.toPOJO());
   }
 
   @Delete(':id')
@@ -95,20 +103,47 @@ export class BlogPostController {
   }
 
   @Get('')
-  public async getAll() {
-    throw new Error('Not implemented');
+  public async index(@Query() query: BlogPostQuery) {
+    const postsWithPagination = await this.blogPostService.getPosts(query);
+    const result = {
+      ...postsWithPagination,
+      entities: postsWithPagination.entities.map((post) => post.toPOJO()),
+    };
+    return fillDto(BlogPostWithPaginationRdo, result);
   }
 
-  @Post('/repost/:id/:userId')
-  public async repost(
-    @Param('id') id: string,
-    @Param('userId') userId: string,
+  @Post(':id/repost')
+  public async repost(@Param('id') id: string, @Body('userId') userId: string) {
+    const newPost = await this.blogPostService.createRepost(id, userId);
+
+    return fillDto(BlogPostRdo, newPost.toPOJO());
+  }
+
+  @Get('search')
+  @ApiOperation(BlogPostAction.Search)
+  @ApiResponse(BlogPostResponse.GetPosts)
+  @ApiResponse(CommonResponse.BadRequest)
+  public async search(
+    @Query() query: BlogPostSearchQuery,
+  ): Promise<BlogPostRdo[]> {
+    const postEntities = await this.blogPostService.findByName(query);
+
+    return postEntities.map((postEntity) =>
+      fillDto(BlogPostRdo, postEntity.toPOJO()),
+    );
+  }
+
+  @Patch(':id')
+  @ApiOperation(BlogPostAction.Update)
+  @ApiResponse(BlogPostResponse.PostUpdated)
+  @ApiResponse(BlogPostResponse.PostNotFound)
+  @ApiResponse(CommonResponse.BadRequest)
+  @ApiBody(BlogPostBody.update)
+  public async update(
+    @Param(BlogPostParam.PostId.name) id: string,
+    @Body() dto: UpdatePostDto
   ) {
-    throw new Error('Not implemented');
-  }
-
-  @Post('search')
-  public async findByName() {
-    throw new Error('Not implemented');
+    const updatedPost = await this.blogPostService.updatePost(id, dto);
+    return fillDto(BlogPostRdo, updatedPost.toPOJO());
   }
 }

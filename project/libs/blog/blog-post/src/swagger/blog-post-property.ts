@@ -1,4 +1,6 @@
 import { PostState, PostType } from '@prisma/blog-client';
+import { SortDirection, SortType } from '@project/core';
+import { BlogPostSortDefault } from '../blog-post-module/blog-post.constant';
 
 export const BlogPostProperty = {
   Id: {
@@ -23,6 +25,20 @@ export const BlogPostProperty = {
     },
     Validate: {
       Message: 'AuthorId should be valid UUID',
+    },
+  },
+  StartDate: {
+    Description: {
+      description: 'Start date of the period',
+      example: '2025-05-21 10:00',
+      required: false,
+    },
+  },
+  IsDraft: {
+    Description: {
+      required: false,
+      description: 'Show draft posts',
+      example: false,
     },
   },
   IsRepost: {
@@ -192,6 +208,38 @@ export const BlogPostProperty = {
   Comments: {
     Description: {
       description: 'Comments post',
+    },
+  },
+  Posts: {
+    Description: {
+      description: 'Post collection',
+      example: '[{post1}, {post2}]',
+      isArray: true,
+    },
+  },
+  SortDirection: {
+    Description: {
+      description: 'Sorting direction',
+      enum: SortDirection,
+      enumName: 'SortDirection',
+      example: BlogPostSortDefault.Direction,
+      required: false,
+    },
+  },
+  SortType: {
+    Description: {
+      description: 'Sorting type',
+      enum: SortType,
+      enumName: 'SortType',
+      example: BlogPostSortDefault.Type,
+      required: false,
+    },
+  },
+  Search: {
+    Description: {
+      description: 'Search by publication name',
+      required: true,
+      example: 'text you are looking for',
     },
   },
 } as const;

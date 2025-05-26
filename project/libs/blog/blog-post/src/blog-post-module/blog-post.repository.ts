@@ -1,8 +1,11 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
+import { PostState, Prisma } from '@prisma/blog-client';
 import { PrismaBlogClientService } from '@project/blog-model';
+import { PaginationResult } from '@project/core';
 import { BasePostgresRepository } from '@project/data-access';
 import { BlogPostEntity } from './blog-post.entity';
 import { BlogPostFactory } from './blog-post.factory';
+import { BlogPostQuery, BlogPostSearchQuery } from './blog-post.query';
 
 @Injectable()
 export class BlogPostRepository extends BasePostgresRepository<BlogPostEntity> {
@@ -63,5 +66,81 @@ export class BlogPostRepository extends BasePostgresRepository<BlogPostEntity> {
         id,
       },
     });
+  }
+
+  public async find(
+    query?: BlogPostQuery,
+  ): Promise<PaginationResult<BlogPostEntity>> {
+    const skip =
+      query?.page && query?.limit ? (query.page - 1) * query.limit : undefined;
+    const take = query?.limit;
+    const where: Prisma.PostWhereInput = {};
+    const orderBy: Prisma.PostOrderByWithRelationInput = {};
+
+    if (query?.tag) {
+      where.tags = {
+        some: { name: query.tag },
+      };
+    }
+
+    if (query?.postType) {
+      where.postType = query.postType;
+    }
+
+    if (query?.isDraft) {
+      where.userId = query?.userId ?? '-';
+      where.postState = PostState.DRAFT;
+    } else {
+      if (query?.userId) {
+        where.userId = query.userId;
+      }
+    }
+    if (query?.sortBy) {
+      orderBy[query.sortBy] = query.sortDirection;
+    }
+
+    const [records, postCount] = await Promise.all([
+      this.client.post.findMany({
+        where,
+        orderBy,
+        skip,
+        take,
+        include: {
+          comments: true,
+        },
+      }),
+      this.getPostCount(where),
+    ]);
+
+    return {
+      entities: records.map((record) => this.createEntityFromDocument(record)),
+      currentPage: query?.page,
+      totalPages: Math.ceil(postCount / take),
+      itemsPerPage: take,
+      totalItems: postCount,
+    };
+  }
+
+  public async search(query: BlogPostSearchQuery): Promise<BlogPostEntity[]> {
+    const posts = await this.client.post.findMany({
+      where: {
+        name: { contains: query.name, mode: 'insensitive' },
+      },
+      take: query.limit,
+    });
+
+    return posts.map((post) => this.createEntityFromDocument(post));
+  }
+
+  private async getPostCount(where: Prisma.PostWhereInput): Promise<number> {
+    return this.client.post.count({ where });
+  }
+
+  public async existsRepost(postId: string, userId: string): Promise<boolean> {
+    const count = await this.client.post.count({
+      where: { originalId: postId, userId: userId },
+    });
+
+    return count > 0;
   }
 }

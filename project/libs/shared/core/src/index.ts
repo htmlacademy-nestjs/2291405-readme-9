@@ -19,3 +19,6 @@ export { StorableEntity } from './lib/interfaces/storable-entity.interface';
 export { EntityFactory } from './lib/interfaces/entity-facetory.interface';
 
 export { CommonResponse } from './lib/constants/common-responses';
+export { SortDirection } from './lib/types/sort-direction.enum';
+export { SortType } from './lib/types/sort-type.enum';
+export { PaginationResult } from './lib/types/pagination-result.interface';

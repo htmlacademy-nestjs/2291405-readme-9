@@ -25,4 +25,10 @@ export const BlogPostResponse = {
     status: HttpStatus.NOT_FOUND,
     description: 'Post not found',
   },
+  GetPosts: {
+    type: BlogPostRdo,
+    isArray: true,
+    status: HttpStatus.OK,
+    description: 'Post list has been received',
+  },
 } as const;
