@@ -1,1 +1,1 @@
-export { fillDto } from './lib/common'
+export { fillDto, omit } from './lib/common'
