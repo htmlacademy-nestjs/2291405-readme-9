@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { PostType } from '@project/core';
+import { PostType } from '@prisma/blog-client';
 import { IsNotEmpty, IsString, Length, ValidateIf } from 'class-validator';
 import { BlogPostProperty } from '../swagger/blog-post-property';
 import { CreateBlogPostDto } from './create-base-post.dto';

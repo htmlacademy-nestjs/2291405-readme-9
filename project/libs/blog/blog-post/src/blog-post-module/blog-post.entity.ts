@@ -80,6 +80,8 @@ export class BlogPostEntity extends Entity implements StorableEntity<Post> {
       quoteAuthor: this.quoteAuthor,
       description: this.description,
       photo: this.photo,
+      commentCount: this.commentCount,
+      likeCount: this.likeCount,
     };
   }
 }

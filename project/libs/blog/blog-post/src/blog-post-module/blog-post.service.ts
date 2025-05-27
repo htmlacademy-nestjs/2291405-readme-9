@@ -10,12 +10,13 @@ import { CreatePhotoPostDto } from '../dto/create-photo-post.dto';
 import { CreateQuotePostDto } from '../dto/create-quote-post.dto';
 import { CreateTextPostDto } from '../dto/create-text-post.dto';
 import { CreateVideoPostDto } from '../dto/create-video-post.dto';
+import { UpdatePostDto } from '../dto/update-post.dto';
 import { BlogPostProperty } from '../swagger/blog-post-property';
+import { BlogPostError } from './blog-post.constant';
 import { BlogPostEntity } from './blog-post.entity';
 import { BlogPostFactory } from './blog-post.factory';
 import { BlogPostQuery, BlogPostSearchQuery } from './blog-post.query';
 import { BlogPostRepository } from './blog-post.repository';
-import { BlogPostError } from './blog-post.constant';
 
 @Injectable()
 export class BlogPostService {
@@ -151,5 +152,46 @@ export class BlogPostService {
     }
 
     return [];
+  }
+
+  public async updateLikeCount(postId: string, value: number): Promise<void> {
+    const existPost = await this.getPost(postId);
+    existPost.likeCount += value;
+    await this.blogPostRepository.update(existPost);
+  }
+
+  public async updateCommentCount(
+    postId: string,
+    value: number,
+  ): Promise<void> {
+    const existPost = await this.getPost(postId);
+    existPost.commentCount += value;
+    await this.blogPostRepository.update(existPost);
+  }
+
+  public async updatePost(
+    id: string,
+    dto: UpdatePostDto,
+  ): Promise<BlogPostEntity> {
+    const existsPost = await this.blogPostRepository.findById(id);
+    if (!existsPost) {
+      throw new NotFoundException(`Post with id ${id} not found.`);
+    }
+    if (existsPost.postType !== dto.postType) {
+      throw new NotFoundException('postType cannot be changed');
+    }
+
+    let hasChanges = false;
+    const dtoUpdate = { ...dto, tags: this.checkTags(dto.tags) };
+    for (const [key, value] of Object.entries(dtoUpdate)) {
+      if (value !== undefined && existsPost[key] !== value) {
+        existsPost[key] = value;
+        hasChanges = true;
+      }
+    }
+    if (hasChanges) {
+      return await this.blogPostRepository.update(existsPost);
+    }
+    return existsPost;
   }
 }

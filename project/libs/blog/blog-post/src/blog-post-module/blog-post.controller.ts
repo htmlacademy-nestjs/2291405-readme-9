@@ -9,7 +9,7 @@ import {
   Post,
   Query,
 } from '@nestjs/common';
-import { ApiBody, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { CommonResponse } from '@project/core';
 import { fillDto } from '@project/helpers';
 import { CreateLinkPostDto } from '../dto/create-link-post.dto';
@@ -17,6 +17,7 @@ import { CreatePhotoPostDto } from '../dto/create-photo-post.dto';
 import { CreateQuotePostDto } from '../dto/create-quote-post.dto';
 import { CreateTextPostDto } from '../dto/create-text-post.dto';
 import { CreateVideoPostDto } from '../dto/create-video-post.dto';
+import { UpdatePostDto } from '../dto/update-post.dto';
 import { BlogPostRdo } from '../rdo/blog-post.rdo';
 import { BlogPostWithPaginationRdo } from '../rdo/blog-post-with-pagination.rdo';
 import { BlogPostAction } from '../swagger/blog-post-action';
@@ -138,11 +139,7 @@ export class BlogPostController {
   @ApiResponse(BlogPostResponse.PostUpdated)
   @ApiResponse(BlogPostResponse.PostNotFound)
   @ApiResponse(CommonResponse.BadRequest)
-  @ApiBody(BlogPostBody.update)
-  public async update(
-    @Param(BlogPostParam.PostId.name) id: string,
-    @Body() dto: UpdatePostDto
-  ) {
+  public async update(@Param('id') id: string, @Body() dto: UpdatePostDto) {
     const updatedPost = await this.blogPostService.updatePost(id, dto);
     return fillDto(BlogPostRdo, updatedPost.toPOJO());
   }

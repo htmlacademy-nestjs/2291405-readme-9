@@ -35,11 +35,13 @@ model Post {
   postState       PostState @map("post_state") 
   userId          String    @db.Uuid  
   isRepost        Boolean   @map("is_repost")
-  originalId      String?    @map("original_id") @db.Uuid 
+  originalId      String?   @map("original_id") @db.Uuid 
   originalUserId  String?    @map("original_user_id") @db.Uuid
   tags            Tag[]
-  likes           Like[]
+  likeCount       Int       @default(0) @map("like_count")
+  commentCount    Int       @default(0) @map("comment_count")
   comments        Comment[]
+  likes           Like[]
   url             String?
   preview         String?
   quoteText       String?     @map("quote_text") 
@@ -58,17 +60,6 @@ model Tag  {
   @@map("tags")
 }
 
-model Like {
-  userId              String        @map("user_id") @db.Uuid
-  postId              String        @map("post_id") @db.Uuid
-  post                Post          @relation(fields: [postId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  
-  @@id([userId, postId])
-  @@unique([userId, postId])
-
-  @@map("likes")
-}
-
 model Comment {
   id                  String        @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   postId              String        @map("post_id") @db.Uuid
@@ -78,4 +69,15 @@ model Comment {
   post                Post          @relation(fields: [postId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   
   @@map("comments")
+}
+
+model Like {
+  userId              String        @map("user_id") @db.Uuid
+  postId              String        @map("post_id") @db.Uuid
+  post                Post          @relation(fields: [postId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  
+  @@id([userId, postId], name: "userIdPostId")
+  @@unique([userId, postId])
+
+  @@map("likes")
 }
