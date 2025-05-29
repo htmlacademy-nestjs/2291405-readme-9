@@ -1,14 +1,22 @@
+-- CreateEnum
+CREATE TYPE "PostType" AS ENUM ('VIDEO', 'TEXT', 'QUOTE', 'PHOTO', 'LINK');
+
+-- CreateEnum
+CREATE TYPE "PostState" AS ENUM ('PUBLISHED', 'DRAFT');
+
 -- CreateTable
 CREATE TABLE "posts" (
     "id" UUID NOT NULL DEFAULT gen_random_uuid(),
     "name" TEXT,
     "text" TEXT,
-    "post_type" TEXT NOT NULL,
-    "post_state" TEXT NOT NULL,
+    "post_type" "PostType" NOT NULL,
+    "post_state" "PostState" NOT NULL,
     "userId" UUID NOT NULL,
     "is_repost" BOOLEAN NOT NULL,
     "original_id" UUID,
     "original_user_id" UUID,
+    "like_count" INTEGER NOT NULL DEFAULT 0,
+    "comment_count" INTEGER NOT NULL DEFAULT 0,
     "url" TEXT,
     "preview" TEXT,
     "quote_text" TEXT,
@@ -29,14 +37,6 @@ CREATE TABLE "tags" (
 );
 
 -- CreateTable
-CREATE TABLE "likes" (
-    "user_id" UUID NOT NULL,
-    "post_id" UUID NOT NULL,
-
-    CONSTRAINT "likes_pkey" PRIMARY KEY ("user_id","post_id")
-);
-
--- CreateTable
 CREATE TABLE "comments" (
     "id" UUID NOT NULL DEFAULT gen_random_uuid(),
     "post_id" UUID NOT NULL,
@@ -45,6 +45,14 @@ CREATE TABLE "comments" (
     "create_date" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
     CONSTRAINT "comments_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "likes" (
+    "user_id" UUID NOT NULL,
+    "post_id" UUID NOT NULL,
+
+    CONSTRAINT "likes_pkey" PRIMARY KEY ("user_id","post_id")
 );
 
 -- CreateTable
@@ -62,10 +70,10 @@ CREATE UNIQUE INDEX "likes_user_id_post_id_key" ON "likes"("user_id", "post_id")
 CREATE INDEX "_PostToTag_B_index" ON "_PostToTag"("B");
 
 -- AddForeignKey
-ALTER TABLE "likes" ADD CONSTRAINT "likes_post_id_fkey" FOREIGN KEY ("post_id") REFERENCES "posts"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "comments" ADD CONSTRAINT "comments_post_id_fkey" FOREIGN KEY ("post_id") REFERENCES "posts"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "comments" ADD CONSTRAINT "comments_post_id_fkey" FOREIGN KEY ("post_id") REFERENCES "posts"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "likes" ADD CONSTRAINT "likes_post_id_fkey" FOREIGN KEY ("post_id") REFERENCES "posts"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "_PostToTag" ADD CONSTRAINT "_PostToTag_A_fkey" FOREIGN KEY ("A") REFERENCES "posts"("id") ON DELETE CASCADE ON UPDATE CASCADE;

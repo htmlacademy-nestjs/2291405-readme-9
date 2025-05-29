@@ -33,9 +33,6 @@ export class BlogPostRepository extends BasePostgresRepository<BlogPostEntity> {
         comments: {
           connect: [],
         },
-        likes: {
-          connect: [],
-        },
       },
     });
 
@@ -142,5 +139,34 @@ export class BlogPostRepository extends BasePostgresRepository<BlogPostEntity> {
     });
 
     return count > 0;
+  }
+
+  public async update(entity: BlogPostEntity): Promise<BlogPostEntity> {
+    const pojoEntity = entity.toPOJO();
+    const record = await this.client.post.update({
+      where: { id: entity.id },
+      data: {
+        postType: pojoEntity.postType,
+        originalId: pojoEntity.originalId || null,
+        tags: {
+          set: [],
+          connectOrCreate: pojoEntity.tags.map((tag) => ({
+            create: { name: tag },
+            where: { name: tag },
+          })),
+        },
+        publicationDate: pojoEntity.publicationDate,
+        likeCount: pojoEntity.likeCount,
+        commentCount: pojoEntity.commentCount,
+        name: pojoEntity.name,
+        url: pojoEntity.url,
+        preview: pojoEntity.preview,
+        text: pojoEntity.text,
+        quoteText: pojoEntity.quoteText,
+        quoteAuthor: pojoEntity.quoteAuthor,
+        description: pojoEntity.description,
+      },
+    });
+    return await this.findById(record.id);
   }
 }

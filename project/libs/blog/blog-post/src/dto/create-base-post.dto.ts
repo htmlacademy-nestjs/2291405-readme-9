@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { PostType } from '@project/core';
+import { PostType } from '@prisma/blog-client';
 import {
   IsArray,
   IsIn,

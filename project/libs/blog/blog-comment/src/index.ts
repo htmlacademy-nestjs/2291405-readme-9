@@ -1,1 +1,1 @@
-export * from './lib/blog-comment.js';
+export { BlogCommentModule } from './blog-comment-module/blog-comment.module';

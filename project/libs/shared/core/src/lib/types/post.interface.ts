@@ -1,6 +1,5 @@
 import { PostState, PostType } from '@prisma/blog-client';
 import { Comment } from './comment.interface';
-import { Like } from './like.interface';
 import { Tag } from './tag.interface';
 
 export interface BasePost {
@@ -12,7 +11,6 @@ export interface BasePost {
   originalId?: string;
   originalUserId?: string;
   tags?: Tag[];
-  likes?: Like[];
   comment?: Comment[];
   createDate?: Date;
   publicationDate?: Date;
