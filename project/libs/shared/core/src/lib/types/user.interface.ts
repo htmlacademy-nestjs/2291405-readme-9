@@ -4,6 +4,6 @@ export interface User {
   name: string;
   avatar?: string;
   registerDate?: Date;
-  postCount?: number;
-  subscriberCount?: number;
+  postCount: number;
+  subscriberCount: number;
 }

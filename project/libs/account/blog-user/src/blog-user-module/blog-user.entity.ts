@@ -5,7 +5,7 @@ import { SALT_ROUNDS } from './blog-user.constant';
 export class BlogUserEntity extends Entity implements StorableEntity<AuthUser> {
   public email: string;
   public name: string;
-  public avatar: string | null;
+  public avatar?: string;
   public registerDate?: Date;
   public postCount: number;
   public subscriberCount: number;
@@ -36,7 +36,7 @@ export class BlogUserEntity extends Entity implements StorableEntity<AuthUser> {
       id: this.id || undefined,
       email: this.email,
       name: this.name,
-      avatar: this.avatar || null,
+      avatar: this.avatar,
       registerDate: this.registerDate,
       passwordHash: this.passwordHash,
       postCount: this.postCount ?? 0,

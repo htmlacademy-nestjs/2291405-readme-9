@@ -1,6 +1,8 @@
 import { HttpStatus } from '@nestjs/common';
 import { LoggedUserRdo } from '../rdo/logged-user.rdo';
 import { UserRdo } from '../rdo/user.rdo';
+import { UserTokenRdo } from '../rdo/user-token.rdo';
+import { TokenPayloadRdo } from '../rdo/token-payload.rdo';
 
 export const AuthenticationResponse = {
   BadRequest: {
@@ -45,5 +47,15 @@ export const AuthenticationResponse = {
   UserAuthForbidden: {
     status: HttpStatus.FORBIDDEN,
     description: 'Forbidden for authorized users',
+  },
+  GetToken: {
+    type: UserTokenRdo,
+    status: HttpStatus.CREATED,
+    description: 'Get a new access/refresh tokens',
+  },
+  CheckSuccess: {
+    type: TokenPayloadRdo,
+    status: HttpStatus.OK,
+    description: 'Check access token success',
   },
 } as const;
