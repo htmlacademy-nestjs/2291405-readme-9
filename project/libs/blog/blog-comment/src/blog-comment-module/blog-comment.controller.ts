@@ -20,7 +20,7 @@ import { BlogCommentAction } from './swagger/blog-comment-action';
 import { BlogCommentResponse } from './swagger/blog-comment-response';
 
 @ApiTags('Comments')
-@Controller('posts')
+@Controller('comments')
 export class BlogCommentController {
   constructor(private readonly blogCommentService: BlogCommentService) {}
 

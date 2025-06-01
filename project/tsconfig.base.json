@@ -23,6 +23,7 @@
       "@project/blog-model": ["libs/blog/blog-model/src/index.ts"],
       "@project/blog-post": ["libs/blog/blog-post/src/index.ts"],
       "@project/blog-user": ["libs/account/blog-user/src/index.ts"],
+      "@project/config": ["libs/account/config/src/index.ts"],
       "@project/core": ["libs/shared/core/src/index.ts"],
       "@project/data-access": ["libs/shared/data-access/src/index.ts"],
       "@project/helpers": ["libs/shared/helpers/src/index.ts"],
